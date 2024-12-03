@@ -1,16 +1,27 @@
 % Συνάρτηση Δυναμικής Συμπεριφοράς
-function dxdt = linear_system(t, x, K, T, r, input_type)
-    % Κατάσταση x = [y; y_dot]
-    y = x(1);
-    y_dot = x(2);
+function [xdot] = linear_system(t, x, K, T, input_type)
+
+    % Δυναμική του Συστήματος
+    % x: Διάνυσμα καταστάσεων (x(1) = y, x(2) = y_dot)
+    % r: Είσοδος αναφοράς (σταθερή ή συνάρτηση του χρόνου)
+    % input_type: Τύπος εισόδου ('step' ή 'ramp')
+
+    %Επιστρέφει τις παραγώγους των καταστάσεων
+
+    x1 = x(1);
+    x2 = x(2);
 
     if strcmp(input_type, 'ramp')
-        r = input(t);
+        rdot = 1.2;
+    elseif strcmp(input_type, 'step')
+        rdot = 0;
     end
 
-    dydt = y_dot;
-    dy_dot_dt = -(1/T) * y_dot - (K/T) * y + (K/T) * r;
+    rddot = 0;
+
+    x1dot = x2;
+    x2dot = -(1/T) * x2 - (K/T) * x1 + (1/T) * rdot + rddot ;
     
-    % Διανυσματική έξοδος
-    dxdt = [dydt; dy_dot_dt];
+    xdot = [x1dot; x2dot];
+
 end
