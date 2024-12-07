@@ -1,19 +1,13 @@
-function dxdt = nonlinear_system(t, x, K, T, e0, alpha, input_func)
-    y = x(1);
-    y_dot = x(2);
-    r = input_func(t);
-    e = r - y;
-
-    % Συνάρτηση κέρδους N(s)
-    if abs(e) <= e0
-        N = alpha;
+function xdot = nonlinear_system(t, x, K, T, B, e0, alpha)
+   
+    if e0 < 0.2
+        a = alpha;
     else
-        N = 1;
+        a = 1;
     end
 
-    % Δυναμική συστήματος
-    dydt = y_dot;
-    dy_dot_dt = -(1/T) * y_dot - (N * K / T) * y + (N * K / T) * r;
+    x1dot = x(2);
+    x2dot  = (1/T) * B - (1/T) * x(2) - a*(K/T) * x(1);
     
-    dxdt = [dydt; dy_dot_dt];
+    xdot = [x1dot; x2dot];
 end
