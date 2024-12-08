@@ -8,29 +8,29 @@ initial_conditions = [-2, 0; 1, 0; 0, 0.5; 2, 2; 2.5, -1; 1.1, 2];
 
 num_conditions = size(initial_conditions, 1);
 
-% figure;
+figure;
 for i = 1:num_conditions
-    [t, states] = ode45(@(t, x) nonlinear_system(t, x, K, T, B, e0, alpha), time_span, initial_conditions(i, :));
+     [t, states] = ode45(@(t, x) nonlinear_system(t, x, K, T, B, e0, alpha), time_span, initial_conditions(i, :));
     
-    figure;
-    subplot(1, 2, 1);
-    plot(t, states(:, 1), 'Color', 'green', 'LineStyle', ':', 'LineWidth', 2);
-    hold on;
-    plot(t, states(:, 2), 'Color', 'blue', 'LineStyle', '--', 'LineWidth', 2); 
-    hold off;
-    xlabel('Χρόνος (s)');
-    ylabel('Τιμές των x_1 και x_2');
-    legend('x_1', 'x_2');
-    title([' Απόκριση των καταστάσεων x_1 και x_2 για r = 1.2t | ',...
-            'x_1(0) = ', num2str(initial_conditions(i, 1)), ', x_2(0) = ', num2str(initial_conditions(i, 2))]);
+%     figure;
+%     subplot(1, 2, 1);
+%     plot(t, states(:, 1), 'Color', 'green', 'LineStyle', ':', 'LineWidth', 2);
+%     hold on;
+%     plot(t, states(:, 2), 'Color', 'blue', 'LineStyle', '--', 'LineWidth', 2); 
+%     hold off;
+%     xlabel('Χρόνος (s)');
+%     ylabel('Τιμές των x_1 και x_2');
+%     legend('x_1', 'x_2');
+%     title([' Απόκριση των καταστάσεων x_1 και x_2 για r = 0.04t | ',...
+%             'x_1(0) = ', num2str(initial_conditions(i, 1)), ', x_2(0) = ', num2str(initial_conditions(i, 2))]);
     
-    subplot(1, 2, 2);
-    plot(states(:, 1), states(:, 2), 'Color', 'red', 'LineWidth', 2);
-    xlabel('x_1');
-    ylabel('x_2');
-    title(['Φασικό Πορτρέτο των καταστάσεων x_1 και x_2  για r = 0.5t | ',...
-            'x_1(0) = ', num2str(initial_conditions(i, 1)), ', x_2(0) = ', num2str(initial_conditions(i, 2))]);
-    grid on;
+%     subplot(1, 2, 2);
+%     plot(states(:, 1), states(:, 2), 'Color', 'red', 'LineWidth', 2);
+%     xlabel('x_1');
+%     ylabel('x_2');
+%     title(['Φασικό Πορτρέτο των καταστάσεων x_1 και x_2  για r = 0.04t | ',...
+%             'x_1(0) = ', num2str(initial_conditions(i, 1)), ', x_2(0) = ', num2str(initial_conditions(i, 2))]);
+%     grid on;
 
     %r, y plot
 
@@ -46,17 +46,17 @@ for i = 1:num_conditions
     % legend('r', 'y');
     % title(['x_1(0) = ', num2str(initial_conditions(i, 1)), ', x_2(0) = ', num2str(initial_conditions(i, 2))]);
 
-    % %ramp
-    % subplot(3, 2, i);
-    % plot(t, B*t, 'Color', 'black', 'LineStyle', ':', 'LineWidth', 2); %r
-    % hold on;
-    % y = B*t - states(:, 1);
-    % plot(t, y, 'Color', [1, 0.647, 0], 'LineStyle', '-', 'LineWidth', 2);% y
-    % hold off;
-    % xlabel('Χρόνος (s)');
-    % ylabel('r, y');
-    % legend('r', 'y');
-    % title(['x_1(0) = ', num2str(initial_conditions(i, 1)), ', x_2(0) = ', num2str(initial_conditions(i, 2))]);
+    %ramp
+    subplot(3, 2, i);
+    plot(t, B*t, 'Color', 'black', 'LineStyle', ':', 'LineWidth', 2); %r
+    hold on;
+    y = B*t - states(:, 1);
+    plot(t, y, 'Color', [1, 0.647, 0], 'LineStyle', '-', 'LineWidth', 2);% y
+    hold off;
+    xlabel('Χρόνος (s)');
+    ylabel('r, y');
+    legend('r', 'y');
+    title(['x_1(0) = ', num2str(initial_conditions(i, 1)), ', x_2(0) = ', num2str(initial_conditions(i, 2))]);
 
 
 end
@@ -66,5 +66,5 @@ end
 %          ' είσοδο r = 0.5 και έξοδο y = r - e']);
 
 % %ramp
-% sgtitle(['Aπόκριση του συστήματος σε ράμπα',... 
-%          ' είσοδο r = 0.5t και έξοδο y = r - e']);
+sgtitle(['Aπόκριση του συστήματος σε ράμπα',... 
+         ' είσοδο r = 0.5t και έξοδο y = r - e']);
