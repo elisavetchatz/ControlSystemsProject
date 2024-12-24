@@ -6,7 +6,7 @@ initial_conditions = [
     0.4, 0.4;   
     0.8, 0.8;    
    -0.4, 1       
-];
+];                
 
 colors = ['r', 'g', 'b', 'm'];
 
@@ -28,7 +28,7 @@ hold off;
 % Φασικό επίπεδο καταστάσεων και πεδίο έλξης
 [x1_values, x2_values] = meshgrid(-2:0.1:2, -2:0.1:2);  
 x1dot = -x1_values + x2_values;
-x2dot = -x1_values; % + x1_values .* x2_values + 0.5 * x2_values.^2;
+x2dot = -x1_values + x1_values .* x2_values + 0.5 * x2_values.^2;
 
 figure;
 hold on;

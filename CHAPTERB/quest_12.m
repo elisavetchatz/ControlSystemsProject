@@ -1,10 +1,10 @@
 K = [3, 5];
 
-initial_conditions = [9, 11; 11, 1];
+initial_conditions = [9, 11; 11, 1; 0.5, 0.5];
 tspan = [0 10];
 theta = 1;
 
-colors = ['b', 'm']; 
+colors = ['b', 'm', 'g']; 
 
 options = odeset('Refine', 10); % Αυξάνει τον αριθμό των σημείων που επιστρέφονται
 
