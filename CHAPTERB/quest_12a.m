@@ -8,7 +8,7 @@ options = odeset('Refine', 10); % Αυξάνει τον αριθμό των ση
 for i = 1:size(initial_conditions, 1)
     figure;
     hold on;
-    [t, x] = ode45(@(t, x)control_system(t, x, K), tspan, initial_conditions(i, :), options);
+    [t, x] = ode45(@(t, x)control_system_a(t, x, K), tspan, initial_conditions(i, :), options);
     plot(t, x(:, 1), 'DisplayName', sprintf('x1(%d)', i), 'Color', colors(i), 'LineWidth', 2);
     plot(t, x(:, 2), '--', 'DisplayName', sprintf('x2(%d)', i), 'Color', colors(i), 'LineWidth', 2);
     title('Απόκριση του Συστήματος στο Χρόνο');
@@ -26,7 +26,7 @@ end
 x1dot = zeros(size(x1_values));
 x2dot = zeros(size(x2_values));
 for i = 1:numel(x1_values)
-    xdot = control_system(0, [x1_values(i); x2_values(i)], K);
+    xdot = control_system_a(0, [x1_values(i); x2_values(i)], K);
     x1dot(i) = xdot(1);
     x2dot(i) = xdot(2);
 end
@@ -41,7 +41,8 @@ for i = 1:size(initial_conditions, 1)
 
     contour(x1_values, x2_values, V, [0 0], 'k', 'LineWidth', 1.5, 'DisplayName', 'V(x_1, x_2) = 0');
     quiver(x1_values, x2_values, x1dot, x2dot, 'Color', [0.5, 0.5, 0.5], 'LineWidth', 1.5, 'DisplayName', 'Attraction Field');
-    [t, x] = ode45(@(t, x)control_system(t, x, K), tspan, initial_conditions(i, :), options); 
+    
+    [t, x] = ode45(@(t, x)control_system_a(t, x, K), tspan, initial_conditions(i, :), options); 
     plot(x(:, 1), x(:, 2), 'DisplayName', ['x_0 = [' num2str(initial_conditions(i, :)) ']'], 'Color', colors(i), 'LineWidth', 1.5);
     
     xlabel('x_1');
