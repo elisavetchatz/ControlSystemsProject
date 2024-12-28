@@ -1,70 +1,64 @@
+%ru=0.5
+close all;
+
 K = 5; 
 T = 0.2;
-B = 1.2; %or the unit step response
 time_span = [0 3]; 
 initial_conditions = [-2, 0; 1, 0; 0, 0.5; 2, 2; 2.5, -1; 1.1, 2]; %y, y'
-
+colors = ['r', 'g', 'b', 'm', 'c', 'y'];
 num_conditions = size(initial_conditions, 1);
 
-%figure;
-
 for i = 1:num_conditions
-    % Προσομοίωση με ode45 
-    % t = πίνακας με τιμές του χρόνου για τις οποίες υπολογίστηκαν οι λύσεις, 
-    %states = αντίστοιχες τιμές των χ1 και χ2 για καθε στιγμη, πίνακας με δλυο στήλες για χ1 και χ2
 
-    [t, states] = ode45(@(t, x) linear_system(t, x, T, K, B), time_span, [0.5-initial_conditions(i, 1), -initial_conditions(i, 2)]);
+    x1=0.5-initial_conditions(i, 1);
+    x2=-initial_conditions(i, 2);
+    x=[x1, x2];
+
+    [t, states] = ode45(@(t, x) linear_system_u(t, x, T, K), time_span, [x1, x2]);
     %disp(states);
     
     %Καταστάσεις συναρτήσει χρόνου
     figure;
-    plot(t(:, 1), states(:, 1), 'Color', 'green', 'LineStyle', ':', 'LineWidth', 2);
+    plot(t, states(:, 1), 'Color', colors(i), 'LineWidth', 2);
     hold on;
-    plot(t(:, 2), states(:, 2), 'Color', 'blue', 'LineStyle', '--', 'LineWidth', 2); 
+    plot(t, states(:, 2), '--', 'Color', colors(i), 'LineWidth', 2); 
+
+    yline(0.5, 'Color', 'black', 'LineStyle', ':', 'LineWidth', 2); %r
+
+    y = 0.5 - states(:, 1);
+    plot(t, y, 'Color', [1, 0.647, 0], 'LineStyle', '-', 'LineWidth', 2);% y
+
     hold off;
     xlabel('Χρόνος (s)');
-    ylabel('Τιμές των x_1 και x_2');
-    legend('x_1', 'x_2');
+    ylabel('Τιμές των x_1 και x_2, y, r');
+    legend('x_1', 'x_2', 'r', 'y');
     title([' Απόκριση των καταστάσεων x_1 και x_2 | ',...
-            'x_1(0) = ',  - num2str(initial_conditions(i, 1)), ', x_2(0) = ', 1.2-num2str(initial_conditions(i, 2))]);
+            'x_1(0) = ',  num2str(x1), ', x_2(0) = ', num2str(x2)]);
     
     %φασικό πορτρέτο
     figure;
-    plot(states(:, 1), states(:, 2), 'Color', 'red', 'LineWidth', 2);
+    plot(states(:, 1), states(:, 2), 'Color', colors(i), 'LineWidth', 2);
     xlabel('x_1');
     ylabel('x_2');
     title(['Φασικό Πορτρέτο των καταστάσεων x_1 και x_2 | ',...
-            'x_1(0) = ',0.5 - num2str(initial_conditions(i, 1)), ', x_2(0) = ', -num2str(initial_conditions(i, 2))]);
+            'x_1(0) = ', num2str(x1), ', x_2(0) = ', num2str(x2)]);
     grid on;
 
-
-    %r, y plot
-
-    %unit
-    % subplot(3, 2, i);
-    % yline(0.5, 'Color', 'black', 'LineStyle', ':', 'LineWidth', 2); %r
-    % hold on;
-    % y = 0.5 - states(:, 1);
-    % plot(t, y, 'Color', [1, 0.647, 0], 'LineStyle', '-', 'LineWidth', 2);% y
-    % hold off;
-    % xlabel('Χρόνος (s)');
-    % ylabel('r, y');
-    % legend('r', 'y');
-    % title(['x_1(0) = ', num2str(initial_conditions(i, 1)), ', x_2(0) = ', num2str(initial_conditions(i, 2))]);
-
-    %ramp
-    % subplot(3, 2, i);
-    % plot(t, 1.2*t, 'Color', 'black', 'LineStyle', ':', 'LineWidth', 2); %r
-    % hold on;
-    % y = 1.2*t - states(:, 1);
-    % plot(t, y, 'Color', [1, 0.647, 0], 'LineStyle', '-', 'LineWidth', 2);% y
-    % hold off;
-    % xlabel('Χρόνος (s)');
-    % ylabel('r, y');
-    % legend('r', 'y');
-    % title(['x_1(0) = ', num2str(initial_conditions(i, 1)), ', x_2(0) = ', num2str(initial_conditions(i, 2))]);
-
 end
+
+
+%     %ramp
+%     subplot(3, 2, i);
+%     plot(t, 1.2*t, 'Color', 'black', 'LineStyle', ':', 'LineWidth', 2); %r
+%     hold on;
+%     y = 1.2*t - states(:, 1);
+%     plot(t, y, 'Color', [1, 0.647, 0], 'LineStyle', '-', 'LineWidth', 2);% y
+%     hold off;
+%     xlabel('Χρόνος (s)');
+%     ylabel('r, y');
+%     legend('r', 'y');
+%     title(['x_1(0) = ', num2str(initial_conditions(i, 1)), ', x_2(0) = ', num2str(initial_conditions(i, 2))]);
+
 
 % unit
 % sgtitle(['Aπόκριση του συστήματος σε βηματική',... 
