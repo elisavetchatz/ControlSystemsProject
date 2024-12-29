@@ -2,7 +2,7 @@ function xdot = nonlinear_system_r(t, x, K, T, B, e0, alpha)
    
     if abs(x(1))<e0
         a = alpha;
-    else
+    else 
         a = 1;
     end
 
