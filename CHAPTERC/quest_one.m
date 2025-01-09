@@ -1,61 +1,61 @@
-% MATLAB Code for Robotic Arm Control - Sliding Mode Control
+% MATLAB code for sliding mode control of a 2-DOF robotic arm
 
-% Given Parameters
-m1 = 6; m2 = 4; l1 = 0.5; l2 = 0.4; g = 9.81;
-lc1 = 0.2; lc2 = 0.1; I1 = 0.43; I2 = 0.05; ml = 0.5;
+% Given parameters for the robotic arm
+m1 = 6;      % kg, mass of the first link
+m2 = 4;      % kg, mass of the second link
+l1 = 0.5;    % m, length of the first link
+l2 = 0.4;    % m, length of the second link
+g = 9.81;    % m/s^2, gravitational acceleration
+lc1 = 0.2;   % m, center of mass of the first link
+lc2 = 0.1;   % m, center of mass of the second link
+I1 = 0.43;   % kg*m^2, moment of inertia of the first link
+I2 = 0.05;   % kg*m^2, moment of inertia of the second link
+ml = 0.5;    % kg, mass of the payload
 
-% Desired position (static)
-qd_static = [pi/2; -pi/3];
+% Desired positions and velocities
+qd = [pi/2; -pi/3];  % rad, desired angles
+q_dot_d = [0; 0];    % rad/s, desired angular velocities
 
-% Desired trajectory (dynamic)
-T = 10; % Simulation time
-syms t;
-qd_dynamic = [(pi/4) + (pi/6)*sin(0.2*pi*t); (-pi/3) + (pi/3)*cos(0.2*pi*t)];
+% Sliding surface gain
+lambda_gain = 10;
 
-% Model Definitions
-H = @(q) [m1*lc1^2 + m2*(lc2^2 + l1^2 + 2*l1*lc2*cos(q(2))) + ml*(l2^2 + l1^2 + 2*l1*l2*cos(q(2))) + I1 + I2, m2*lc2*(lc2 + l1*cos(q(2))) + ml*l2*(l2 + l1*cos(q(2))) + I2;
-          m2*lc2*(lc2 + l1*cos(q(2))) + ml*l2*(l2 + l1*cos(q(2))) + I2, m2*lc2^2 + ml*l2^2 + I2];
+% Initial conditions
+q0 = [pi / 3; pi / 3];  % Initial angles (rad)
+q_dot0 = [0; 0];        % Initial angular velocities (rad/s)
+initial_state = [q0; q_dot0];
 
-C = @(q, dq) [-l1*(m2*lc2 + ml*l2)*sin(q(2))*dq(2), -l1*(m2*lc2 + ml*l2)*sin(q(2))*(dq(2) + dq(1));
-               l1*(m2*lc2 + ml*l2)*sin(q(2))*dq(1), 0];
+% Time span for simulation
+time_span = [0, 10];  % seconds
+time_eval = linspace(time_span(1), time_span(2), 1000);
 
-g_vec = @(q) [(m2*lc2 + ml*l2)*g*cos(q(1) + q(2)) + (m2*l1 + ml*l1 + m1*lc1)*g*cos(q(1));
-              (m2*lc2 + ml*l2)*g*cos(q(1) + q(2))];
+% Solve the dynamics
+[t, states] = ode15s(@(t, state) robotic_arm_dynamics(t, state, qd, q_dot_d, lambda_gain, m1, m2, ml, lc1, lc2, l1, l2, I1, I2, g), time_span, initial_state);
 
-% Sliding Mode Control Parameters
-lambda = [5, 5]; % Gain for sliding surface
-eta = [10, 10]; % Switching gain
+% Extract results
+q1 = states(:, 1);
+q2 = states(:, 2);
+q1_dot = states(:, 3);
+q2_dot = states(:, 4);
 
-% Simulation Function
-ts = 0:0.01:T;
-[q, dq] = deal(zeros(2, length(ts)));
-q(:,1) = [pi/3; pi/3]; dq(:,1) = [0; 0]; % Initial conditions
-
-for i = 1:length(ts)-1
-    % Error Calculation
-    e = qd_static - q(:,i);
-    de = -dq(:,i);
-
-    % Sliding Surface
-    s = lambda'.*e + de;
-
-    % Control Input
-    H_q = H(q(:,i));
-    C_q = C(q(:,i), dq(:,i));
-    G_q = g_vec(q(:,i));
-
-    u = -H_q*(lambda'.*de + eta'.*sign(s)) + C_q*dq(:,i) + G_q;
-
-    % Dynamics Update (Euler Integration)
-    ddq = H_q \ (u - C_q*dq(:,i) - G_q);
-    dq(:,i+1) = dq(:,i) + ddq*0.01;
-    q(:,i+1) = q(:,i) + dq(:,i)*0.01;
-end
-
-% Plots
+% Plot results
 figure;
-plot(ts, q(1,:), 'r', ts, q(2,:), 'b');
-legend('q1', 'q2'); xlabel('Time (s)'); ylabel('Angles (rad)');
-title('Joint Angles Over Time');
+plot(t, q1, 'b', 'DisplayName', 'q1 (rad)');
+hold on;
+plot(t, q2, 'g', 'DisplayName', 'q2 (rad)');
+yline(qd(1), 'r--', 'DisplayName', 'qd1 (desired)');
+yline(qd(2), 'k--', 'DisplayName', 'qd2 (desired)');
+xlabel('Time (s)');
+ylabel('Angle (rad)');
+legend;
+title('Joint Angles');
+grid on;
 
+figure;
+plot(t, q1_dot, 'b', 'DisplayName', 'q1_dot (rad/s)');
+hold on;
+plot(t, q2_dot, 'g', 'DisplayName', 'q2_dot (rad/s)');
+xlabel('Time (s)');
+ylabel('Angular Velocity (rad/s)');
+legend;
+title('Joint Velocities');
 grid on;
