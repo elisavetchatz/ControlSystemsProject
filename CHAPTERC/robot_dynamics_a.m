@@ -1,4 +1,4 @@
-function dxdt = robot_dynamics(t, x)
+function dxdt = robot_dynamics_a(t, x)
 
      xd = [pi/2; -pi/3]; % Επιθυμητές Θέσεις
 

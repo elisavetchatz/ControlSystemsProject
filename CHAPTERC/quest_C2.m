@@ -54,18 +54,18 @@ for i = 1:length(plot_titles)
     hold on;
     data = plots_data{i};
     if i <= 2 % Φασικά Πορτραίτα
-        plot(data{1}, data{2}, error_styles{1}, 'LineWidth', 1.5);
+        plot(data{1}, data{2}, error_styles{1}, 'LineWidth', 2);
     elseif i == 3 % Θέσεις
         for j = 1:size(data{2}, 2)
-            plot(data{1}, data{2}(:, j), line_styles{j}, 'LineWidth', 1.5);
+            plot(data{1}, data{2}(:, j), line_styles{j}, 'LineWidth', 2);
         end
     elseif i == 4 % Ταχύτητες
         for j = 1:size(data{2}, 2)
-            plot(data{1}, data{2}(:, j), line_styles{j}, 'LineWidth', 1.5);
+            plot(data{1}, data{2}(:, j), line_styles{j}, 'LineWidth', 2);
         end
     else % Σφάλματα Θέσης
         for j = 1:size(data{2}, 2)
-            plot(data{1}, data{2}(:, j), error_styles{j}, 'LineWidth', 1.5);
+            plot(data{1}, data{2}(:, j), error_styles{j}, 'LineWidth', 2);
         end
     end
     hold off;
@@ -95,8 +95,8 @@ scatter(s(:, 1), s(:, 2), 'k', 'filled'); % Δείκτες για την επι�
 hold off;
 
 % Ρυθμίσεις διαγράμματος
-title('Σφάλμα Θέσης και Ταχύτητας (e, \dot{e}) και Επιφάνεια Ολίσθησης (s)', 'FontSize', 14);
-xlabel('e (Σφάλμα Θέσης)', 'FontSize', 12);
-ylabel('\dot{e} (Σφάλμα Ταχύτητας)', 'FontSize', 12);
-legend({'q_1: e vs \dot{e}', 'q_2: e vs \dot{e}', 's: Επιφάνεια Ολίσθησης'}, 'FontSize', 10, 'Location', 'best');
+title('Σφάλμα Θέσης και Ταχύτητας, Επιφάνεια Ολίσθησης (s)', 'FontSize', 14);
+xlabel('Σφάλμα Θέσης', 'FontSize', 12);
+ylabel('Σφάλμα Ταχύτητας', 'FontSize', 12);
+legend({'q_1: e vs dot(e)', 'q_2: e vs dot(e)', 's: Επιφάνεια Ολίσθησης'}, 'FontSize', 10, 'Location', 'best');
 grid on;
