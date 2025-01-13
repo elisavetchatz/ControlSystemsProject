@@ -13,10 +13,8 @@ function dxdt = robot_dynamics(t, x)
      I1 = 0.43; I2 = 0.05;
      g = 9.81;
  
-     H = [m1*lc1^2 + m2*(lc2^2 + l1^2 + 2*l1*lc2*cos(x(2))) + ml*(l2^2 + l1^2 + 2*l1*l2*cos(x(2))) + I1 + I2, 
-          m2*lc2*(lc2 + l1*cos(x(2))) + ml*l2*(l2 + l1*cos(x(2))) + I2;
-          m2*lc2*(lc2 + l1*cos(x(2))) + ml*l2*(l2 + l1*cos(x(2))) + I2, 
-          lc2^2*m2 + l2^2*ml + I2];
+     H = [m1*lc1^2 + m2*(lc2^2 + l1^2 + 2*l1*lc2*cos(x(2))) + ml*(l2^2 + l1^2 + 2*l1*l2*cos(x(2))) + I1 + I2, m2*lc2*(lc2 + l1*cos(x(2))) + ml*l2*(l2 + l1*cos(x(2))) + I2;
+          m2*lc2*(lc2 + l1*cos(x(2))) + ml*l2*(l2 + l1*cos(x(2))) + I2, lc2^2*m2 + l2^2*ml + I2];
  
      C = [-l1*(m2*lc2 + ml*l2)*sin(x(2))*x(4), -l1*(m2*lc2 + ml*l2)*sin(x(2))*(x(3) + x(4));
           l1*(m2*lc2 + ml*l2)*sin(x(2))*x(3), 0];
@@ -34,10 +32,7 @@ function dxdt = robot_dynamics(t, x)
               l1*(m2*lc2_hat + ml_hat*l2)*sin(x(2))*x(3), 0];
      
      g_est = [(m2*lc2_hat + ml_hat*l2)*g*cos(x(1) + x(2))+(m2*l1 + ml_hat*l1 + m1*lc1_hat)*g*cos(x(1));(m2*lc2_hat + ml_hat*l2)*g*cos(x(1)+x(2))];
-     disp(g_est);
-     g_est = g_est(1:2, :); % Διατήρηση μόνο των πρώτων δύο στοιχείων
-     disp(g_est);
-     disp('Dimensions of g_est:'), disp(size(g_est));
+     g_est = g_est(1:2, :); 
 
      lc1_min = 0.1;
      lc1_max = 0.4;
@@ -56,18 +51,14 @@ function dxdt = robot_dynamics(t, x)
              l1*(m2*lc2_max + ml_max*l2)*sin(x(2))*x(3), 0];
      gmax = [(m2*lc2_max + ml_max*l2)*g*cos(x(1) + x(2)) + (m2*l1 + ml_max*l1 + m1*lc1_max)*g*cos(x(1));
              (m2*lc2_max + ml_max*l2)*g*cos(x(1) + x(2))];
+     gmax = gmax(1:2, :);
 
      lambda = 10;
      c = 0;
-     rho = lambda * sqrt(x21^2 + x22^2) + norm(H_est - Hmin) + sqrt(x21^2 + x22^2) * norm(Cmax - C_est) + norm(gmax - g_est) + c;
-     disp('Dimensions of H_est:'), disp(size(H_est));
-disp('Dimensions of x2:'), disp(size(x2));
-disp('Dimensions of C_est:'), disp(size(C_est));
-disp('Dimensions of g_est:'), disp(size(g_est))
 
+     rho = lambda * sqrt(x21^2 + x22^2) + norm(H_est - Hmin) + sqrt(x21^2 + x22^2) * norm(Cmax - C_est) + norm(gmax - g_est) + c;
      ueq = -(lambda * (H_est * x2)) + (C_est * x2) + g_est;
 
- 
      u = ueq;
      for i = 1:2
          if abs(x(2+i) + 10 * (x(i) - xd(i))) <= 1e-5
@@ -78,7 +69,9 @@ disp('Dimensions of g_est:'), disp(size(g_est))
              u(i) = ueq(i) + rho;
          end
      end
- 
+  
+     u = u(:);
+
      dxdt = zeros(4, 1);
      dxdt(1:2) = x(3:4); 
      dxdt(3:4) = -H \ ((C * x(3:4)) + g - u);
