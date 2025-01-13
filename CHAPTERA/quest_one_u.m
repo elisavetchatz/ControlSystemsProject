@@ -14,7 +14,7 @@ for i = 1:num_conditions
     x2=-initial_conditions(i, 2);
     x=[x1, x2];
 
-    [t, states] = ode45(@(t, x) linear_system_u(t, x, T, K), time_span, [x1, x2]);
+    [t, states] = ode45(@linear_system_u, time_span, [x1, x2]);
     %disp(states);
     
     %Καταστάσεις συναρτήσει χρόνου
