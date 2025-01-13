@@ -36,16 +36,14 @@ plots_data = {
 
 colors = ['r', 'g', 'b', 'm'];
 line_styles = {'b-', 'b--', 'm-', 'm--'};
-error_styles = {'r-', 'r--'};
+error_styles = {'r-', 'r--', 'g-', 'g--'};
 
-% Δημιουργία Διαγραμμάτων
 for i = 1:length(plot_titles)
     figure();
     hold on;
     data = plots_data{i};
     if i <= 2 % Φασικά Πορτραίτα
-        plot(data{1}, data{2}, 'LineWidth', 1.5);
-        %scatter(data{1}, data{2}, 'filled');
+        plot(data{1}, data{2}, error_styles{j+1}, 'LineWidth', 1.5);
     elseif i == 3 % Θέσεις
         for j = 1:size(data{2}, 2)
             plot(data{1}, data{2}(:, j), line_styles{j}, 'LineWidth', 1.5);
@@ -61,7 +59,6 @@ for i = 1:length(plot_titles)
     end
     hold off;
 
-    % Εμφάνιση Τίτλων και Υπομνημάτων
     title(plot_titles{i}, 'FontSize', 14);
     xlabel(plot_labels{i}{1}, 'FontSize', 12);
     ylabel(plot_labels{i}{2}, 'FontSize', 12);
@@ -74,3 +71,23 @@ for i = 1:length(plot_titles)
     end
     grid on;
 end
+
+lambda = 10; 
+e = [states(:, 1) - q1_desired, states(:, 2) - q2_desired]; % Σφάλμα θέσης
+edot = [states(:, 3), states(:, 4)]; % Σφάλμα ταχύτητας
+s = edot + lambda * e; % Επιφάνεια ολίσθησης
+figure();
+hold on;
+
+% Φασικό πορτραίτο (e έναντι edot για κάθε q)
+plot(e(:, 1), edot(:, 1), 'b-', 'LineWidth', 1.5); % q1: e1 vs edot1
+plot(e(:, 2), edot(:, 2), 'r-', 'LineWidth', 1.5); % q2: e2 vs edot2
+scatter(s(:, 1), s(:, 2), 'k', 'filled'); % Δείκτες για την επιφάνεια ολίσθησης
+hold off;
+title('Σφάλμα Θέσης και Ταχύτητας (e, \dot{e}) και Επιφάνεια Ολίσθησης (s)', 'FontSize', 14);
+xlabel('e (Σφάλμα Θέσης)', 'FontSize', 12);
+ylabel('\dot{e} (Σφάλμα Ταχύτητας)', 'FontSize', 12);
+legend({'q_1: e vs \dot{e}', 'q_2: e vs \dot{e}', 's: Επιφάνεια Ολίσθησης'}, 'FontSize', 10, 'Location', 'best');
+grid on;
+
+
