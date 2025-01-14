@@ -1,5 +1,10 @@
 close all;
 
+save_path = 'C:\Users\chatz\ControlSystemsProject\CHAPTERA\figures\μη γραμμικο συστημα\';
+if ~exist(save_path, 'dir')
+    mkdir(save_path);
+end
+
 K  = 5;
 T = 0.2;
 B = [1.2, 0.04, 0.5];
@@ -36,8 +41,7 @@ for i = 1:num_conditions
         title([' Απόκριση καταστάσεων με r= ', num2str(B(j)), 't', ...
                 'x_1(0) = ', num2str(x1), ', x_2(0) = ', num2str(x2)]);
 
-        % save
-        plot_filename = sprintf('response_x1_x2_%d_%d.jpg', i, j);
+        plot_filename = sprintf('%sresponse_x1_x2_%d_%d.jpg', save_path, i, j);
         saveas(gcf, plot_filename, 'jpg');
     
         % Φασικό πορτρέτο
@@ -49,8 +53,7 @@ for i = 1:num_conditions
                 'x_1(0) = ', num2str(x1), ', x_2(0) = ', num2str(x2)]);
         grid on;
 
-        % Αποθήκευση του φασικού πορτρέτου σε αρχείο JPG
-        phase_plot_filename = sprintf('phase_plot_x1_x2_%d_%d.jpg', i, j);
+        phase_plot_filename = sprintf('%sphase_plot_x1_x2_%d_%d.jpg', save_path, i, j);
         saveas(gcf, phase_plot_filename, 'jpg');
     end
 end

@@ -1,3 +1,9 @@
+close all;
+save_path = 'C:\Users\chatz\ControlSystemsProject\CHAPTERB\figures';
+if ~exist(save_path, 'dir')
+    mkdir(save_path);
+end
+
 initial_conditions = [0.8, 0.8; -0.4, 1]; 
 tspan = [0 10];
 options = odeset('Refine', 10);
@@ -16,6 +22,9 @@ for i=1:size(initial_conditions, 1)
     grid on;
     hold off;
 
+    plot_filename = sprintf('%sresponse_x1_x2_%d_%d.jpg', save_path, i);
+        saveas(gcf, plot_filename, 'jpg');
+
 end 
 
 for i=1:size(initial_conditions, 1)
@@ -31,4 +40,7 @@ for i=1:size(initial_conditions, 1)
     title('Φασικό Επίπεδο Καταστάσεων και Πεδίο Έλξης');
     grid on;
     hold off;
+
+    phase_plot_filename = sprintf('%sphase_plot_x1_x2_%d_%d.jpg', save_path, i);
+        saveas(gcf, phase_plot_filename, 'jpg');
 end

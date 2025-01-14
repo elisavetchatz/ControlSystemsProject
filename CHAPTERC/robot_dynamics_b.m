@@ -51,17 +51,20 @@ function dxdt = robot_dynamics_b(t, x)
             m2*lc2_min*(lc2_min + l1*cos(x(2))) + ml_min*l2*(l2 + l1*cos(x(2))) + I2_min, lc2_min^2*m2 + l2^2*ml_min + I2_min];
     Hmax = [m1*lc1_max^2 + m2*(lc2_max^2 + l1^2 + 2*l1*lc2_max*cos(x(2))) + ml_max*(l2^2 + l1^2 + 2*l1*l2*cos(x(2))) + I1_max + I2_max, m2*lc2_max*(lc2_max + l1*cos(x(2))) + ml_max*l2*(l2 + l1*cos(x(2))) + I2_max;
             m2*lc2_max*(lc2_max + l1*cos(x(2))) + ml_max*l2*(l2 + l1*cos(x(2))) + I2_max, lc2_max^2*m2 + l2^2*ml_max + I2_max];
+
     Cmax = [-l1*(m2*lc2_max + ml_max*l2)*sin(x(2))*x(4), -l1*(m2*lc2_max + ml_max*l2)*sin(x(2))*(x(3) + x(4));
             l1*(m2*lc2_max + ml_max*l2)*sin(x(2))*x(3), 0];
+
     gmax = [(m2*lc2_max + ml_max*l2)*g*cos(x(1) + x(2)) + (m2*l1 + ml_max*l1 + m1*lc1_max)*g*cos(x(1));
             (m2*lc2_max + ml_max*l2)*g*cos(x(1) + x(2))];
+
     gmax = gmax(1:2, :);
     gmin = [(m2*lc2_min + ml_min*l2)*g*cos(x(1) + x(2)) + (m2*l1 + ml_min*l1 + m1*lc1_min)*g*cos(x(1));
             (m2*lc2_min + ml_min*l2)*g*cos(x(1) + x(2))];
     gmin = gmin(1:2, :);
 
 
-    lambda = 10;
+    lambda = 100;
     c = 0.1;
 
     rho = norm(xdddot - lambda * x2 +lambda * xddot)* norm(Hmax - H_est) - sqrt(x21^2 + x22^2) * norm(Cmax - C_est) + norm(g_est - gmin) + c;

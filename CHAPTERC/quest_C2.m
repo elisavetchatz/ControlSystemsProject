@@ -1,6 +1,11 @@
-% Ρυθμίσεις ODE
+close all;
+% save_path = 'C:\Users\chatz\ControlSystemsProject\CHAPTERC';
+% if ~exist(save_path, 'dir')
+%     mkdir(save_path);
+% end
+
 options = odeset('Refine', 1, 'RelTol', 1e-7, 'AbsTol', 1e-8, 'MaxStep', 0.1);
-tspan = [0 1];
+tspan = [0 100];
 x0 = [pi/3; pi/3; 0; 0]; % Αρχικές συνθήκες: q1, q2, dq1, dq2
 
 % Εκτέλεση της ODE
@@ -13,7 +18,7 @@ q1dot_desired = pi^2/30*cos(0.2*pi*t); % dq1 επιθυμητή
 q2dot_desired = -pi^2/15*sin(0.2*pi*t); % dq2 επιθυμητή
 
 % Υπολογισμός επιφάνειας ολίσθησης
-lambda = 10; % Παράμετρος ολίσθησης
+lambda = 100; % Παράμετρος ολίσθησης
 e = [states(:, 1) - q1_desired, states(:, 2) - q2_desired]; % Σφάλμα θέσης
 edot = [states(:, 3) - q1dot_desired, states(:, 4)-q2dot_desired]; % Σφάλμα ταχύτητας
 s = edot + lambda * e; % Επιφάνεια ολίσθησης
@@ -81,6 +86,8 @@ for i = 1:length(plot_titles)
         legend({'e_1', 'e_2'}, 'FontSize', 10, 'Location', 'best');
     end
     grid on;
+    % plot_filename = sprintf('%splot_x1_x2_%d_%d.jpg', save_path, i);
+    %     saveas(gcf, plot_filename, 'jpg');
 end
 
 % Δημιουργία διαγράμματος e, edot, και s
