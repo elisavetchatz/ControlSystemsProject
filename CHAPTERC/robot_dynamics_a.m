@@ -54,23 +54,26 @@ function dxdt = robot_dynamics_a(t, x)
      gmax = gmax(1:2, :);
 
      lambda = 10;
-     c = 0;
+     c = 0.1;
+ 
+    rho = lambda * sqrt(x21^2 + x22^2) + norm(H_est - Hmin) + sqrt(x21^2 + x22^2) * norm(Cmax - C_est) + norm(gmax - g_est) + c;
+    ueq = -(lambda * (H_est * x2)) + (C_est * x2) + g_est;
 
-     rho = lambda * sqrt(x21^2 + x22^2) + norm(H_est - Hmin) + sqrt(x21^2 + x22^2) * norm(Cmax - C_est) + norm(gmax - g_est) + c;
-     ueq = -(lambda * (H_est * x2)) + (C_est * x2) + g_est;
+    step = 10000;
+    u = ueq;
+    e0 = 0.0001;
 
-     u = ueq;
      for i = 1:2
-         if abs(x(2+i) + 10 * (x(i) - xd(i))) <= 1e-5
-             u(i) = ueq(i) - rho * 100000 * (x(2+i) + 10 * (x(i) - xd(i)));
-         elseif x(2+i) + 10 * (x(i) - xd(i)) > 1e-5
+        s = x(2+i) + lambda * (x(i) - xd(i));
+
+         if s <= e0 || s >= -e0
+             u(i) = ueq(i) - rho * step * s;
+         elseif s > e0
              u(i) = ueq(i) - rho;
          else
              u(i) = ueq(i) + rho;
          end
      end
-  
-     u = u(:);
 
      dxdt = zeros(4, 1);
      dxdt(1:2) = x(3:4); 

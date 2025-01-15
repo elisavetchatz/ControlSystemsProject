@@ -6,7 +6,7 @@ function dxdt = robot_dynamics_b(t, x)
 
     x11 = x(1); x12 = x(2); % Θέσεις
     x21 = x(3); x22 = x(4); % Ταχύτητες
-    x1 = [x11; x12]; % Θέσεις
+    %x1 = [x11; x12]; % Θέσεις
     x2 = [x21; x22]; % Ταχύτητες
 
     m1 = 6; m2 = 4; ml = 0.5;
@@ -64,24 +64,29 @@ function dxdt = robot_dynamics_b(t, x)
     gmin = gmin(1:2, :);
 
 
-    lambda = 100;
+    lambda = 10;
     c = 0.1;
 
     rho = norm(xdddot - lambda * x2 +lambda * xddot)* norm(Hmax - H_est) - sqrt(x21^2 + x22^2) * norm(Cmax - C_est) + norm(g_est - gmin) + c;
-    ueq = -(lambda * (H_est * x2)) + (C_est * x2) + g_est;
+    ueq = -(lambda * (H_est * x2)) + (C_est * x2) + g_est + lambda * xddot;
 
     u = ueq;
+    e0 = 0.0001;
+    step = 10000;
+
     for i = 1:2
-        if abs(x(2+i) + 10 * (x(i) - xd(i))) <= 1e-5
-            u(i) = ueq(i) - rho * 100000 * (x(2+i) + 10 * (x(i) - xd(i)));
-        elseif x(2+i) + 10 * (x(i) - xd(i)) > 1e-5
+        s = x(2+i) - xddot(i) + lambda * (x(i) - xd(i));
+
+        if s <= e0 || s >= -e0
+            u(i) = ueq(i) - rho * step * s;
+        elseif s > e0
             u(i) = ueq(i) - rho;
         else
             u(i) = ueq(i) + rho;
         end
     end
- 
-    u = u(:);
+
+    %u = u(:);
 
     dxdt = zeros(4, 1);
     dxdt(1:2) = x(3:4); 

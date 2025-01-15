@@ -1,4 +1,10 @@
-% Ρυθμίσεις ODE
+close all;
+
+save_path = 'C:\Users\chatz\ControlSystemsProject\CHAPTERC\figures15.01';
+if ~exist(save_path, 'dir')
+    mkdir(save_path);
+end
+
 options = odeset('Refine', 1, 'RelTol', 1e-7, 'AbsTol', 1e-8, 'MaxStep', 0.1);
 tspan = [0 1];
 x0 = [pi/3; pi/3; 0; 0]; % Αρχικές συνθήκες: q1, q2, dq1, dq2
@@ -70,6 +76,10 @@ for i = 1:length(plot_titles)
         legend({'e_1', 'e_2'}, 'FontSize', 10, 'Location', 'best');
     end
     grid on;
+
+    plot_filename = sprintf('%s1_%d.jpg', save_path, i);
+    saveas(gcf, plot_filename, 'jpg');
+    
 end
 
 lambda = 10; 
@@ -82,7 +92,7 @@ hold on;
 % Φασικό πορτραίτο (e έναντι edot για κάθε q)
 plot(e(:, 1), edot(:, 1), 'b-', 'LineWidth', 1.5); % q1: e1 vs edot1
 plot(e(:, 2), edot(:, 2), 'r-', 'LineWidth', 1.5); % q2: e2 vs edot2
-scatter(s(:, 1), s(:, 2), 'k', 'filled'); % Δείκτες για την επιφάνεια ολίσθησης
+scatter(s(:, 1), s(:, 2), 'k', 'filled'); 
 hold off;
 title('Σφάλμα Θέσης και Ταχύτητας, Επιφάνεια Ολίσθησης (s)', 'FontSize', 14);
 xlabel('Σφάλμα Θέσης', 'FontSize', 12);
