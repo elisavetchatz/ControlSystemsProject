@@ -1,9 +1,9 @@
 close all;
 
-save_path = 'C:\Users\chatz\ControlSystemsProject\CHAPTERC\figures15.01';
-if ~exist(save_path, 'dir')
-    mkdir(save_path);
-end
+% save_path = 'C:\Users\chatz\ControlSystemsProject\CHAPTERC\figures15.01';
+% if ~exist(save_path, 'dir')
+%     mkdir(save_path);
+% end
 
 options = odeset('Refine', 1, 'RelTol', 1e-7, 'AbsTol', 1e-8, 'MaxStep', 0.1);
 tspan = [0 1];
@@ -77,8 +77,8 @@ for i = 1:length(plot_titles)
     end
     grid on;
 
-    plot_filename = sprintf('%s1_%d.jpg', save_path, i);
-    saveas(gcf, plot_filename, 'jpg');
+    % plot_filename = sprintf('%s1_%d.jpg', save_path, i);
+    % saveas(gcf, plot_filename, 'jpg');
     
 end
 
@@ -99,5 +99,4 @@ xlabel('Σφάλμα Θέσης', 'FontSize', 12);
 ylabel('Σφάλμα Ταχύτητας', 'FontSize', 12);
 legend({'q_1: e vs dot(e)', 'q_2: e vs dot(e)', 's: Επιφάνεια Ολίσθησης'}, 'FontSize', 10, 'Location', 'best');
 grid on;
-
 
