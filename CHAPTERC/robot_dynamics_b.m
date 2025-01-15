@@ -74,6 +74,7 @@ function dxdt = robot_dynamics_b(t, x)
     e0 = 0.0001;
     step = 10000;
 
+    %control law
     for i = 1:2
         s = x(2+i) - xddot(i) + lambda * (x(i) - xd(i));
 
