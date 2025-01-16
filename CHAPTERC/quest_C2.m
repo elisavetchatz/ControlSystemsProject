@@ -1,30 +1,27 @@
-close all;
+%close all;
 
 save_path = 'C:\Users\chatz\ControlSystemsProject\CHAPTERC\figures15.01';
 if ~exist(save_path, 'dir')
     mkdir(save_path);
 end
 
-options = odeset('Refine', 1, 'RelTol', 1e-7, 'AbsTol', 1e-8, 'MaxStep', 0.1);
-tspan = [0 1];
-x0 = [pi/3; pi/3; 0; 0]; % Αρχικές συνθήκες: q1, q2, dq1, dq2
+options = odeset('Refine', 1, 'RelTol', 1e-7, 'AbsTol', 1e-8);
+tspan = [0 20];
+x0 = [pi/3; pi/3; 0; 0]; 
 
-% Εκτέλεση της ODE
 [t, states] = ode15s(@robot_dynamics_b, tspan, x0, options);
 
-% Επιθυμητές τιμές
-q1_desired = pi/4 + pi/6*sin(0.2*t*pi); % q1 επιθυμητή
-q2_desired = -pi/3 + pi/3*cos(0.2*pi*t); % q2 επιθυμητή
-q1dot_desired = pi^2/30*cos(0.2*pi*t); % dq1 επιθυμητή
-q2dot_desired = -pi^2/15*sin(0.2*pi*t); % dq2 επιθυμητή
+% desired values
+q1_desired = pi/4 + pi/6*sin(0.2*t*pi); % q1 
+q2_desired = -pi/3 + pi/3*cos(0.2*pi*t); % q2
+q1dot_desired = pi^2/30*cos(0.2*pi*t); % dq1 
+q2dot_desired = -pi^2/15*sin(0.2*pi*t); % dq2 
 
-% Υπολογισμός επιφάνειας ολίσθησης
-lambda = 10; % Παράμετρος ολίσθησης
-e = [states(:, 1) - q1_desired, states(:, 2) - q2_desired]; % Σφάλμα θέσης
-edot = [states(:, 3) - q1dot_desired, states(:, 4)-q2dot_desired]; % Σφάλμα ταχύτητας
-s = edot + lambda * e; % Επιφάνεια ολίσθησης
+lambda = 10; 
+e = [states(:, 1) - q1_desired, states(:, 2) - q2_desired]; 
+edot = [states(:, 3) - q1dot_desired, states(:, 4)-q2dot_desired]; 
+%s = edot + lambda * e; 
 
-% Ονομασίες διαγραμμάτων
 plot_titles = {
     'Φασικό Πορτραίτο (e_1, de_1)', ...
     'Φασικό Πορτραίτο (e_2, de_2)', ...
@@ -41,7 +38,6 @@ plot_labels = {
     {'t(s)', 'Σφάλμα Θέσης'},...
     {'t(s)', 'Σφάλμα Ταχύτητας'}};
 
-% Δεδομένα για διαγράμματα
 plots_data = {
     {e(:, 1), edot(:, 1)}, ... % e1, edot1
     {e(:, 2), edot(:, 2)}, ... % e2, edot2
@@ -79,6 +75,7 @@ for i = 1:length(plot_titles)
     title(plot_titles{i}, 'FontSize', 14);
     xlabel(plot_labels{i}{1}, 'FontSize', 12);
     ylabel(plot_labels{i}{2}, 'FontSize', 12);
+
     if i == 3
         legend({'q_1', 'q_2', 'q_{1d}', 'q_{2d}'}, 'FontSize', 10, 'Location', 'best');
     elseif i == 4
@@ -88,22 +85,16 @@ for i = 1:length(plot_titles)
     end
     grid on;
 
-    plot_filename = sprintf('%s3_time_%d.jpg', save_path, i);
-    saveas(gcf, plot_filename, 'jpg');
+    % plot_filename = sprintf('%s3_time_%d.jpg', save_path, i);
+    % saveas(gcf, plot_filename, 'jpg');
 end
 
-% Δημιουργία διαγράμματος e, edot, και s
+% Φασικό πορτραίτο (e έναντι edot για κάθε q)
 figure();
 hold on;
-
-% Φασικό πορτραίτο (e έναντι edot για κάθε q)
 plot(e(:, 1), edot(:, 1), 'b-', 'LineWidth', 1.5); % q1: e1 vs edot1
 plot(e(:, 2), edot(:, 2), 'r-', 'LineWidth', 1.5); % q2: e2 vs edot2
-scatter(s(:, 1), s(:, 2), 'k', 'filled'); % Δείκτες για την επιφάνεια ολίσθησης
-
 hold off;
-
-% Ρυθμίσεις διαγράμματος
 title('Σφάλμα Θέσης και Ταχύτητας, Επιφάνεια Ολίσθησης (s)', 'FontSize', 14);
 xlabel('Σφάλμα Θέσης', 'FontSize', 12);
 ylabel('Σφάλμα Ταχύτητας', 'FontSize', 12);
