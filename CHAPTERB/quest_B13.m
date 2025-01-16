@@ -1,6 +1,6 @@
 initial_conditions = [11, 1, 1]; 
 tspan = [0 10];
-options = odeset('Refine', 10);
+options = odeset('Refine', 1);
 
 [t, x] = ode45(@(t, x)control_system_c(t, x), tspan, initial_conditions, options);
 

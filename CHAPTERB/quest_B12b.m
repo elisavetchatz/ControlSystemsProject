@@ -4,6 +4,8 @@ tspan = [0 10];
 colors = ['b', 'm', 'g']; 
 options = odeset('Refine', 10); % Αυξάνει τον αριθμό των σημείων που επιστρέφονται
 
+warning('off', 'MATLAB:ode45:IntegrationTolNotMet'); 
+
 for i = 1:size(initial_conditions, 1)
     figure;
     hold on;
@@ -31,7 +33,7 @@ for i = 1:numel(x1_values)
 end
 
 % Εκτίμηση του ΠΔ
-c = 2;
+c = 10;
 V = 2*x1_values.^2 + 0.5*x2_values.^2 - c;
 
 for i = 1:size(initial_conditions, 1)
