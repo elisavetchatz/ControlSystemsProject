@@ -5,7 +5,7 @@ close all;
 %     mkdir(save_path);
 % end
 
-options = odeset('Refine', 1, 'RelTol', 1e-7, 'AbsTol', 1e-8);
+options = odeset('Refine', 10);
 tspan = [0 1];
 x0 = [pi/3; pi/3; 0; 0];
 
