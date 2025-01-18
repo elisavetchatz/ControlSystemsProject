@@ -1,12 +1,14 @@
-%close all;
+close all;
 
-save_path = 'C:\Users\chatz\ControlSystemsProject\CHAPTERC\figures15.01';
-if ~exist(save_path, 'dir')
-    mkdir(save_path);
-end
+% save_path = 'C:\Users\chatz\ControlSystemsProject\CHAPTERC\figures15.01';
+% if ~exist(save_path, 'dir')
+%     mkdir(save_path);
+% end
+
+warning('off', 'all');
 
 options = odeset('Refine', 10);
-tspan = [0 20];
+tspan = [0 1];
 x0 = [pi/3; pi/3; 0; 0]; 
 
 [t, states] = ode15s(@robot_dynamics_b, tspan, x0, options);
@@ -56,7 +58,7 @@ for i = 1:length(plot_titles)
     hold on;
     data = plots_data{i};
     if i <= 2 % Φασικά Πορτραίτα
-        plot(data{1}, data{2}, error_styles{1}, 'LineWidth', 2);
+        plot(data{1}, data{2}, error_styles{3}, 'LineWidth', 2);
     elseif i == 3 % Θέσεις
         for j = 1:size(data{2}, 2)
             plot(data{1}, data{2}(:, j), line_styles{j}, 'LineWidth', 2);

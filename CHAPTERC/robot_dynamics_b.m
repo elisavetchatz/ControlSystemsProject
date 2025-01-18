@@ -1,7 +1,7 @@
 function dxdt = robot_dynamics_b(t, x)
 
     xd = [pi/4 + pi/6*sin(0.2*t*pi); -pi/3 + pi/3*cos(0.2*pi*t)]; % Επιθυμητές Θέσεις
-    xddot = [pi^2/30*cos(0.2*pi*t); -pi^2/15*sin(0.2*pi*t)]; % Επιθυμητές Επιταχύνσεις
+    xddot = [pi^2/30*cos(0.2*pi*t); -pi^2/15*sin(0.2*pi*t)]; % Επιθυμητές Ταχύτητες
     xdddot = [-pi^3/150*sin(0.2*pi*t); -pi^3/75*cos(0.2*pi*t)]; % Επιθυμητές Επιταχύνσεις
 
     x11 = x(1); x12 = x(2); % Θέσεις
@@ -71,8 +71,8 @@ function dxdt = robot_dynamics_b(t, x)
     ueq = -(lambda * (H_est * x2)) + (C_est * x2) + g_est + lambda * xddot;
 
     u = ueq;
-    e0 = 0.0001;
-    step = 10000;
+    e0 = 0.01;
+    step = 1000;
 
     %control law
     for i = 1:2

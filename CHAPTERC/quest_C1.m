@@ -95,4 +95,3 @@ xlabel('Σφάλμα Θέσης', 'FontSize', 12);
 ylabel('Σφάλμα Ταχύτητας', 'FontSize', 12);
 legend({'q_1: e vs dot(e)', 'q_2: e vs dot(e)', 's: Επιφάνεια Ολίσθησης'}, 'FontSize', 10, 'Location', 'best');
 grid on;
-

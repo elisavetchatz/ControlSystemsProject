@@ -59,9 +59,9 @@ function dxdt = robot_dynamics_a(t, x)
     rho = lambda * sqrt(x21^2 + x22^2) + norm(H_est - Hmin) + sqrt(x21^2 + x22^2) * norm(Cmax - C_est) + norm(gmax - g_est) + c;
     ueq = -(lambda * (H_est * x2)) + (C_est * x2) + g_est;
 
-    step = 10000;
+    step = 1000;
     u = ueq;
-    e0 = 0.0001;
+    e0 = 0.001;
 
     %control law
      for i = 1:2

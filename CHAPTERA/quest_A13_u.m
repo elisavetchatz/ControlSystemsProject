@@ -45,29 +45,3 @@ for i = 1:num_conditions
     grid on;
 
 end
-
-
-%     %ramp
-%     subplot(3, 2, i);
-%     plot(t, 1.2*t, 'Color', 'black', 'LineStyle', ':', 'LineWidth', 2); %r
-%     hold on;
-%     y = 1.2*t - states(:, 1);
-%     plot(t, y, 'Color', [1, 0.647, 0], 'LineStyle', '-', 'LineWidth', 2);% y
-%     hold off;
-%     xlabel('Χρόνος (s)');
-%     ylabel('r, y');
-%     legend('r', 'y');
-%     title(['x_1(0) = ', num2str(initial_conditions(i, 1)), ', x_2(0) = ', num2str(initial_conditions(i, 2))]);
-
-
-% unit
-% sgtitle(['Aπόκριση του συστήματος σε βηματική',... 
-%             ' είσοδο r = 0.5 και έξοδο y = r - e']);
-
-% ramp
-% sgtitle(['Aπόκριση του συστήματος σε είσοδο',... 
-%             ' ράμπας r = 1.2t και έξοδο y = r - e']);
-
-
-
-
