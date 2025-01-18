@@ -83,30 +83,3 @@ function dxdt = robot_dynamics_a(t, x)
  end
  
  
-
-%  s_sim = linspace(-0.01, 0.01, 1000); % Επιφάνεια ολίσθησης
-%  time = linspace(0, 1, 1000);
-%  % Διάγραμμα ελέγχου u vs s
-%  figure;
-%  plot(s_sim, u, 'b-', 'LineWidth', 2);
-%  hold on;
-%  xline(e0, 'r--', 'LineWidth', 1.5, 'Label', '+e_0');
-%  xline(-e0, 'r--', 'LineWidth', 1.5, 'Label', '-e_0');
-%  title('Σήμα Ελέγχου u vs Επιφάνεια Ολίσθησης s', 'FontSize', 14);
-%  xlabel('Επιφάνεια Ολίσθησης s', 'FontSize', 12);
-%  ylabel('Σήμα Ελέγχου u', 'FontSize', 12);
-%  grid on;
-%  legend('Σήμα Ελέγχου', 'Boundary Layer', 'Location', 'best');
-%  hold off;
-
-%  % Διάγραμμα ελέγχου και επιφάνειας ολίσθησης vs χρόνος
-%  figure;
-%  plot(time, s, 'g-', 'LineWidth', 2);
-%  hold on;
-%  plot(time, u, 'b-', 'LineWidth', 2);
-%  title('Σήμα Ελέγχου u(t) και Επιφάνεια Ολίσθησης s(t)', 'FontSize', 14);
-%  xlabel('Χρόνος (s)', 'FontSize', 12);
-%  ylabel('Πλάτος', 'FontSize', 12);
-%  grid on;
-%  legend('Επιφάνεια Ολίσθησης s(t)', 'Σήμα Ελέγχου u(t)', 'Location', 'best');
-%  hold off;
