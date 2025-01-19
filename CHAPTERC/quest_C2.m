@@ -8,7 +8,7 @@ close all;
 warning('off', 'all');
 
 options = odeset('Refine', 10);
-tspan = [0 1];
+tspan = [0 30];
 x0 = [pi/3; pi/3; 0; 0]; 
 
 [t, states] = ode15s(@robot_dynamics_b, tspan, x0, options);

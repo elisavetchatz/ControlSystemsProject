@@ -5,8 +5,10 @@ close all;
 %     mkdir(save_path);
 % end
 
+warning('off', 'all');
+
 options = odeset('Refine', 10);
-tspan = [0 20];
+tspan = [0 30];
 x0 = [pi/3; pi/3; 0; 0];
 
 [t, states] = ode15s(@robot_dynamics_a, tspan, x0, options);
