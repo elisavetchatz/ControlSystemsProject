@@ -41,6 +41,6 @@ for i=1:size(initial_conditions, 1)
     grid on;
     hold off;
 
-    phase_plot_filename = sprintf('%sphase_plot_x1_x2_%d_%d.jpg', save_path, i);
-        saveas(gcf, phase_plot_filename, 'jpg');
+    % phase_plot_filename = sprintf('%sphase_plot_x1_x2_%d_%d.jpg', save_path, i);
+    %     saveas(gcf, phase_plot_filename, 'jpg');
 end

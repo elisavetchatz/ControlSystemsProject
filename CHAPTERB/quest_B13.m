@@ -8,6 +8,7 @@ x1 = x(:, 1);
 x2 = x(:, 2);
 theta_hat = x(:, 3);
 
+figure;
 subplot(2, 1, 1); 
 hold on;
 plot(t, x1, 'b', 'LineWidth', 1.5, 'DisplayName', 'x_1');
@@ -30,4 +31,6 @@ ylabel('Τιμές');
 legend;
 grid on;
 hold off;
+
+
 
