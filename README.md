@@ -42,7 +42,6 @@ This repository contains the coursework project for the course **Automatic Contr
 - **Software**: MATLAB (required for all simulations)
 - **Files**:
   - `report.pdf`: Detailed theoretical analysis and results.
-  - `simulations/`: MATLAB scripts and functions for all simulations.
 - **Dependencies**: Ensure MATLAB is properly installed with symbolic and control toolboxes.
 
 ---
