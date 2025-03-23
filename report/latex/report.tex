@@ -1,0 +1,75 @@
+\documentclass[12pt]{report}
+
+% Adjusting margins
+\usepackage[a4paper, margin=1in]{geometry}
+
+% Graphics
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes.geometric, arrows}
+
+\tikzstyle{block} = [draw, rectangle, minimum height=2em, minimum width=4em]
+\tikzstyle{sum} = [draw, circle, minimum size=0.5cm, node distance=2cm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{line} = [draw, -latex']
+
+% Math
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+% Other
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage{subcaption} % Ή εναλλακτικά \usepackage[subfig] αν χρειάζεται
+\usepackage{lipsum}
+\usepackage{hyperref}
+\usepackage[LGR]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% Language Settings 
+\usepackage{polyglossia}
+\setdefaultlanguage{greek}
+\setotherlanguage{english}
+\newfontfamily\greekfont[Script=Greek]{Libertinus Serif} 
+\newfontfamily\englishfont{Libertinus Serif}
+
+% Input Algorithms
+\newcommand{\steepestdescent}{\input{algorithms/steepestdescent}}
+\newcommand{\newton}{\input{algorithms/NewtonAlgorithm}}
+\newcommand{\lm}{\input{algorithms/levenbergmethod}}
+
+%----------------------------------------------------------------------------------------
+%	MAIN PART
+%----------------------------------------------------------------------------------------
+
+
+
+\title{Εργασία Εξαμήνου στα Συστήματα Αυτομάτου Ελέγχου ΙΙΙ}
+\author{Χατζηκύρκα Ελισάβετ\\ elischat@ece.auth.gr}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\chapter{ΤΜΗΜΑ Α}
+
+\input{part_a}
+
+\chapter{ΤΜΗΜΑ Β}
+
+\input{part_b}
+
+\chapter{ΤΜΗΜΑ Γ}
+
+\input{part_c}
+
+\end{document}
